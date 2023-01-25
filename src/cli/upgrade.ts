@@ -1,10 +1,21 @@
-'use strict';
+// 'use strict';
 
-const nconf = require('nconf');
-const chalk = require('chalk');
+// const nconf = require('nconf');
+// const chalk = require('chalk');
+import nconf from 'nconf';
+import chalk from 'chalk';
 
-const packageInstall = require('./package-install');
-const { upgradePlugins } = require('./upgrade-plugins');
+
+// const packageInstall = require('./package-install');
+// const { upgradePlugins } = require('./upgrade-plugins');
+import packageInstall from './package-install';
+import upgradePlugins from './upgrade-plugins';
+
+
+import db from '../database';
+import meta from '../meta';
+import upgrade from '../upgrade';
+import metaBuild from '../meta/build';
 
 const steps = {
     package: {
@@ -25,27 +36,30 @@ const steps = {
     plugins: {
         message: 'Checking installed plugins for updates...',
         handler: async function () {
-            await require('../database').init();
+            // The next line calls a function in a module that has not been updated to TS yet
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+            await db.init();
             await upgradePlugins();
         },
     },
     schema: {
         message: 'Updating NodeBB data store schema...',
         handler: async function () {
-            await require('../database').init();
-            await require('../meta').configs.init();
-            await require('../upgrade').run();
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+            await db.init();
+            await meta.configs.init();
+            await upgrade.run();
         },
     },
     build: {
         message: 'Rebuilding assets...',
         handler: async function () {
-            await require('../meta/build').buildAll();
+            await metaBuild.buildAll();
         },
     },
 };
 
-async function runSteps(tasks) {
+async function runSteps(tasks: string[]) {
     try {
         for (let i = 0; i < tasks.length; i++) {
             const step = steps[tasks[i]];
@@ -70,26 +84,26 @@ async function runSteps(tasks) {
     }
 }
 
-async function runUpgrade(upgrades, options) {
-    console.log(chalk.cyan('\nUpdating NodeBB...'));
-    options = options || {};
-    // disable mongo timeouts during upgrade
-    nconf.set('mongo:options:socketTimeoutMS', 0);
+// async function runUpgrade(upgrades, options) {
+//     console.log(chalk.cyan('\nUpdating NodeBB...'));
+//     options = options || {};
+//     // disable mongo timeouts during upgrade
+//     nconf.set('mongo:options:socketTimeoutMS', 0);
 
-    if (upgrades === true) {
-        let tasks = Object.keys(steps);
-        if (options.package || options.install ||
-                options.plugins || options.schema || options.build) {
-            tasks = tasks.filter(key => options[key]);
-        }
-        await runSteps(tasks);
-        return;
-    }
+//     if (upgrades === true) {
+//         let tasks = Object.keys(steps);
+//         if (options.package || options.install ||
+//                 options.plugins || options.schema || options.build) {
+//             tasks = tasks.filter(key => options[key]);
+//         }
+//         await runSteps(tasks);
+//         return;
+//     }
 
-    await require('../database').init();
-    await require('../meta').configs.init();
-    await require('../upgrade').runParticular(upgrades);
-    process.exit(0);
-}
+//     await require('../database').init();
+//     await require('../meta').configs.init();
+//     await require('../upgrade').runParticular(upgrades);
+//     process.exit(0);
+// }
 
-exports.upgrade = runUpgrade;
+// exports.upgrade = runUpgrade;

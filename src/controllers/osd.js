@@ -1,23 +1,12 @@
 "use strict";
-// 'use strict';
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// const xml = require('xml');
-// const nconf = require('nconf');
 const xml_1 = __importDefault(require("xml"));
 const nconf_1 = __importDefault(require("nconf"));
 const plugins_1 = __importDefault(require("../plugins"));
-// import meta from '../meta';
 const configs_1 = __importDefault(require("../meta/configs"));
-// module.exports.handle = function (req: Request, res: Response, next: NextFunction) : void {
-//     if (plugins.hooks.hasListeners('filter:search.query')) {
-//         res.type('application/opensearchdescription+xml').send(generateXML());
-//     } else {
-//         next();
-//     }
-// };
 function trimToLength(string, length) {
     return string.trim().substring(0, length).trim();
 }

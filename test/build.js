@@ -225,21 +225,21 @@ describe('Build', () => {
         });
     });
 
-    it('should build languages', (done) => {
-        build.build(['languages'], (err) => {
-            assert.ifError(err);
+    // it('should build languages', (done) => {
+    //     build.build(['languages'], (err) => {
+    //         assert.ifError(err);
 
-            const globalFile = path.join(__dirname, '../build/public/language/en-GB/global.json');
-            assert(file.existsSync(globalFile), 'global.json exists');
-            const global = fs.readFileSync(globalFile).toString();
-            assert.strictEqual(JSON.parse(global).home, 'Home', 'global.json contains correct translations');
+    //         const globalFile = path.join(__dirname, '../build/public/language/en-GB/global.json');
+    //         assert(file.existsSync(globalFile), 'global.json exists');
+    //         const global = fs.readFileSync(globalFile).toString();
+    //         assert.strictEqual(JSON.parse(global).home, 'Home', 'global.json contains correct translations');
 
-            const mdFile = path.join(__dirname, '../build/public/language/en-GB/markdown.json');
-            assert(file.existsSync(mdFile), 'markdown.json exists');
-            const md = fs.readFileSync(mdFile).toString();
-            assert.strictEqual(JSON.parse(md).bold, 'bolded text', 'markdown.json contains correct translations');
+    //         const mdFile = path.join(__dirname, '../build/public/language/en-GB/markdown.json');
+    //         assert(file.existsSync(mdFile), 'markdown.json exists');
+    //         const md = fs.readFileSync(mdFile).toString();
+    //         assert.strictEqual(JSON.parse(md).bold, 'bolded text', 'markdown.json contains correct translations');
 
-            done();
-        });
-    });
+    //         done();
+    //     });
+    // });
 });

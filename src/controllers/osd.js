@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handle = void 0;
 const xml_1 = __importDefault(require("xml"));
 const nconf_1 = __importDefault(require("nconf"));
 const plugins_1 = __importDefault(require("../plugins"));
@@ -10,9 +11,13 @@ const meta_1 = __importDefault(require("../meta"));
 function trimToLength(string, length) {
     return string.trim().substring(0, length).trim();
 }
+// what i've tried so far:
+// function generateXML() : string {
+// return xml(...) as string
+// const x:string = xml(...) then return x;
+// const x:string = '' then x = xml(...) then return x;
 function generateXML() {
-    let x = '';
-    x = (0, xml_1.default)([{
+    const x = (0, xml_1.default)([{
             OpenSearchDescription: [
                 {
                     _attr: {
@@ -49,11 +54,18 @@ function generateXML() {
         }], { declaration: true, indent: '\t' });
     return x;
 }
-function handler(req, res, next) {
+// eslint-disable-next-line import/prefer-default-export
+function handle(req, res, next) {
+    console.log('osd handl called');
     if (plugins_1.default.hooks.hasListeners('filter:search.query')) {
+        console.log('if statement');
+        console.log(generateXML());
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         res.type('application/opensearchdescription+xml').send(generateXML());
     }
-    next();
+    else {
+        console.log('else');
+        next();
+    }
 }
-exports.default = handler;
+exports.handle = handle;

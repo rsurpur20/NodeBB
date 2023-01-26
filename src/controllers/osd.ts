@@ -9,8 +9,14 @@ function trimToLength(string: string, length: number):string {
     return string.trim().substring(0, length).trim();
 }
 
-function generateXML() {
-    return xml([{
+// what i've tried so far:
+// function generateXML() : string {
+// return xml(...) as string
+// const x:string = xml(...) then return x;
+// const x:string = '' then x = xml(...) then return x;
+
+function generateXML(): string {
+    const x = xml([{
         OpenSearchDescription: [
             {
                 _attr: {
@@ -45,14 +51,21 @@ function generateXML() {
             { 'moz:SearchForm': `${(nconf.get('url')) as string}/search` },
         ],
     }], { declaration: true, indent: '\t' });
-
+    return x;
 }
 
-export default function handler(req, res, next:NextFunction): void {
+// eslint-disable-next-line import/prefer-default-export
+export function handle(req, res, next:NextFunction): void {
+    console.log('osd handl called');
     if (plugins.hooks.hasListeners('filter:search.query')) {
+        console.log('if statement');
+        console.log(generateXML());
+
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         res.type('application/opensearchdescription+xml').send(generateXML());
+    } else {
+        console.log('else');
+        next();
     }
-    next();
 }
 

@@ -2,14 +2,14 @@ import xml from 'xml';
 import nconf from 'nconf';
 import { NextFunction } from 'express';
 import plugins from '../plugins';
-import metaConfig from '../meta/configs';
+import meta from '../meta';
 
 
 function trimToLength(string: string, length: number):string {
     return string.trim().substring(0, length).trim();
 }
 
-function generateXML(): string {
+function generateXML() {
     return xml([{
         OpenSearchDescription: [
             {
@@ -18,8 +18,8 @@ function generateXML(): string {
                     'xmlns:moz': 'http://www.mozilla.org/2006/browser/search/',
                 },
             },
-            { ShortName: trimToLength(String(metaConfig.title || metaConfig.browserTitle || 'NodeBB'), 16) },
-            { Description: trimToLength(String(metaConfig.description || ''), 1024) },
+            { ShortName: trimToLength(String(meta.configs.title || meta.configs.browserTitle || 'NodeBB'), 16) },
+            { Description: trimToLength(String(meta.configs.description || ''), 1024) },
             { InputEncoding: 'UTF-8' },
             {
                 Image: [
@@ -45,6 +45,7 @@ function generateXML(): string {
             { 'moz:SearchForm': `${(nconf.get('url')) as string}/search` },
         ],
     }], { declaration: true, indent: '\t' });
+
 }
 
 export default function handler(req, res, next:NextFunction): void {

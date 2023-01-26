@@ -6,12 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const xml_1 = __importDefault(require("xml"));
 const nconf_1 = __importDefault(require("nconf"));
 const plugins_1 = __importDefault(require("../plugins"));
-const configs_1 = __importDefault(require("../meta/configs"));
+const meta_1 = __importDefault(require("../meta"));
 function trimToLength(string, length) {
     return string.trim().substring(0, length).trim();
 }
 function generateXML() {
-    return (0, xml_1.default)([{
+    let x = '';
+    x = (0, xml_1.default)([{
             OpenSearchDescription: [
                 {
                     _attr: {
@@ -19,8 +20,8 @@ function generateXML() {
                         'xmlns:moz': 'http://www.mozilla.org/2006/browser/search/',
                     },
                 },
-                { ShortName: trimToLength(String(configs_1.default.title || configs_1.default.browserTitle || 'NodeBB'), 16) },
-                { Description: trimToLength(String(configs_1.default.description || ''), 1024) },
+                { ShortName: trimToLength(String(meta_1.default.configs.title || meta_1.default.configs.browserTitle || 'NodeBB'), 16) },
+                { Description: trimToLength(String(meta_1.default.configs.description || ''), 1024) },
                 { InputEncoding: 'UTF-8' },
                 {
                     Image: [
@@ -46,6 +47,7 @@ function generateXML() {
                 { 'moz:SearchForm': `${(nconf_1.default.get('url'))}/search` },
             ],
         }], { declaration: true, indent: '\t' });
+    return x;
 }
 function handler(req, res, next) {
     if (plugins_1.default.hooks.hasListeners('filter:search.query')) {

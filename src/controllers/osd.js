@@ -11,11 +11,6 @@ const meta_1 = __importDefault(require("../meta"));
 function trimToLength(string, length) {
     return string.trim().substring(0, length).trim();
 }
-// what i've tried so far:
-// function generateXML() : string {
-// return xml(...) as string
-// const x:string = xml(...) then return x;
-// const x:string = '' then x = xml(...) then return x;
 function generateXML() {
     const x = (0, xml_1.default)([{
             OpenSearchDescription: [

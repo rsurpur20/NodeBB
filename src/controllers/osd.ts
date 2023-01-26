@@ -9,11 +9,6 @@ function trimToLength(string: string, length: number):string {
     return string.trim().substring(0, length).trim();
 }
 
-// what i've tried so far:
-// function generateXML() : string {
-// return xml(...) as string
-// const x:string = xml(...) then return x;
-// const x:string = '' then x = xml(...) then return x;
 
 function generateXML(): string {
     const x = xml([{

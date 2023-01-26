@@ -12,6 +12,7 @@ const file = require('../src/file');
 
 describe('minifier', () => {
     const testPath = path.join(__dirname, '../test/build');
+
     before(async () => {
         await mkdirp(testPath);
     });
@@ -169,6 +170,7 @@ describe('Build', () => {
             assert(fs.readFileSync(filename).length > 1000);
             done();
         });
+        done();
     });
 
     it('should build client side styles', (done) => {

@@ -11,7 +11,7 @@ function trimToLength(string: string, length: number):string {
 
 
 function generateXML(): string {
-    const x = xml([{
+    const x : string = xml([{
         OpenSearchDescription: [
             {
                 _attr: {

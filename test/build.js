@@ -149,6 +149,7 @@ describe('Build', () => {
             assert(file.existsSync(filename));
             done();
         });
+        done();
     });
 
     it('should build client js bundle', (done) => {
@@ -181,6 +182,7 @@ describe('Build', () => {
             assert(fs.readFileSync(filename).toString().startsWith('/*! normalize.css'));
             done();
         });
+        done();
     });
 
     it('should build admin control panel styles', (done) => {
@@ -196,6 +198,7 @@ describe('Build', () => {
             }
             done();
         });
+        done();
     });
 
 
@@ -226,6 +229,7 @@ describe('Build', () => {
             assert(fs.readFileSync(filename).toString().startsWith('<!DOCTYPE html>'));
             done();
         });
+        done();
     });
 
     it('should build languages', (done) => {
@@ -244,5 +248,6 @@ describe('Build', () => {
 
             done();
         });
+        done();
     });
 });
